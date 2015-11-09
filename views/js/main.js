@@ -421,39 +421,28 @@ var resizePizzas = function(size) {
 
   changeSliderLabel(size);
 
-  // Returns the size difference to change a pizza element from one size to another. Called by changePizzaSlices(size).
-  function determineDx (elem, size) {
-    var oldwidth = elem.offsetWidth;
-    var windowwidth = document.querySelector("#randomPizzas").offsetWidth;
-    var oldsize = oldwidth / windowwidth;
-
-    // TODO: change to 3 sizes? no more xl?
-    // Changes the slider value to a percent width
-    function sizeSwitcher (size) {
-      switch(size) {
-        case "1":
-          return 0.25;
-        case "2":
-          return 0.3333;
-        case "3":
-          return 0.5;
-        default:
-          console.log("bug in sizeSwitcher");
-      }
-    }
-
-    var newsize = sizeSwitcher(size);
-    var dx = (newsize - oldsize) * windowwidth;
-
-    return dx;
-  }
-
   // Iterates through pizza elements on the page and changes their widths
   function changePizzaSizes(size) {
-    for (var i = 0; i < document.querySelectorAll(".randomPizzaContainer").length; i++) {
-      var dx = determineDx(document.querySelectorAll(".randomPizzaContainer")[i], size);
-      var newwidth = (document.querySelectorAll(".randomPizzaContainer")[i].offsetWidth + dx) + 'px';
-      document.querySelectorAll(".randomPizzaContainer")[i].style.width = newwidth;
+    var newWidth;
+    switch(size) {
+        case "1":
+          newWidth = 25;
+          break;
+        case "2":
+          newWidth = 33.3;
+          break;
+        case "3":
+          newWidth = 50;
+          break;
+        default:
+          console.log("bug in sizeSwitcher");
+    }
+
+    var randomPizzaContainer = document.querySelectorAll(".randomPizzaContainer");
+
+    for (var i = 0; i < randomPizzaContainer.length; i++) {
+
+      randomPizzaContainer[i].style.width = newWidth + '%';
     }
   }
 
@@ -497,8 +486,10 @@ function logAverageFrame(times) {   // times is the array of User Timing measure
 // The following code for sliding background pizzas was pulled from Ilya's demo found at:
 // https://www.igvita.com/slides/2012/devtools-tips-and-tricks/jank-demo.html
 
+// var animating;
 // Moves the sliding background pizzas based on scroll position
 function updatePositions() {
+
   frame++;
   window.performance.mark("mark_start_frame");
 
@@ -518,18 +509,10 @@ function updatePositions() {
   for (var i = 0; i < numOfPizzas ; i++) {
     // var phase = Math.sin((document.body.scrollTop / 1250) + (i % 5));
     // items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
-    // items[i].style.left = items[i].basicLeft + constArray[i % 5] + 'px';
-
-    // items[i].style.left = items[i].basicLeft + constArray[i % 5] + 'px';
 
     var moveX =  items[i].basicLeft + constArray[(i % 5)] -1250;
-    // items[i].style.transform = 'translate3d(' + moveX + 'px, 0, 0)'
-    items[i].style.transform = 'translateX( ' + moveX + 'px)'
-
-    // var moveX = items[i].basicLeft + phase[i%5];
-    /****The move is being done by transform instead of left - it does not activate the layout and paint****/
-    // items[i].style.transform = 'translate3d(' + moveX + 'px, 0,0)';
-
+    items[i].style.transform = 'translate3d(' + moveX + 'px, 0, 0)'
+    // items[i].style.transform = 'translateX( ' + moveX + 'px)'
   }
 
   // User Timing API to the rescue again. Seriously, it's worth learning.
@@ -540,10 +523,19 @@ function updatePositions() {
     var timesToUpdatePosition = window.performance.getEntriesByName("measure_frame_duration");
     logAverageFrame(timesToUpdatePosition);
   }
+  animating = false;
 }
 
 // runs updatePositions on scroll
-window.addEventListener('scroll', updatePositions);
+// window.addEventListener('scroll', updatePositions);
+
+window.addEventListener('scroll', requestAnimationFrameToScroll);
+function requestAnimationFrameToScroll(){
+  if (!animating){
+    requestAnimationFrame(updatePositions);
+    animating = true;
+  }
+}
 
 // Generates the sliding pizzas when the page loads.
 document.addEventListener('DOMContentLoaded', function() {
