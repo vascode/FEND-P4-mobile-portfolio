@@ -507,17 +507,29 @@ function updatePositions() {
 
   var items = document.getElementsByClassName('mover');
   // console.log("gEBC", items)
-  var top = document.body.scrollTop;
+  var top = document.body.scrollTop/ 1250;
+  var numOfPizzas = items.length;
 
   var constArray = [];
   for (var i=0; i<5; i++){
-    constArray[i] = Math.sin((top / 1250) + i) * 100; //correspond to 100 * phase in previoius code
+    constArray[i] = Math.sin(top + i) * 100; //correspond to 100 * phase in previoius code
   }
 
-  for (var i = 0; i < items.length; i++) {
-    var moveX =  items[i].basicLeft + constArray[(i % 5)];
-    items[i].style.transform = 'translate3d(' + moveX + 'px, 0, 0)'
-    // items[i].style.transform = 'translateX(100px)';
+  for (var i = 0; i < numOfPizzas ; i++) {
+    // var phase = Math.sin((document.body.scrollTop / 1250) + (i % 5));
+    // items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
+    // items[i].style.left = items[i].basicLeft + constArray[i % 5] + 'px';
+
+    // items[i].style.left = items[i].basicLeft + constArray[i % 5] + 'px';
+
+    var moveX =  items[i].basicLeft + constArray[(i % 5)] -1250;
+    // items[i].style.transform = 'translate3d(' + moveX + 'px, 0, 0)'
+    items[i].style.transform = 'translateX( ' + moveX + 'px)'
+
+    // var moveX = items[i].basicLeft + phase[i%5];
+    /****The move is being done by transform instead of left - it does not activate the layout and paint****/
+    // items[i].style.transform = 'translate3d(' + moveX + 'px, 0,0)';
+
   }
 
   // User Timing API to the rescue again. Seriously, it's worth learning.
@@ -535,9 +547,14 @@ window.addEventListener('scroll', updatePositions);
 
 // Generates the sliding pizzas when the page loads.
 document.addEventListener('DOMContentLoaded', function() {
+  var movingPizzas1 = document.getElementById("movingPizzas1");
   var cols = 8;
   var s = 256;
-  for (var i = 0; i < 200; i++) {
+  // Get number of pizzas that need to be created
+  var pizzaWidth = Math.floor(window.innerWidth / 73.333);
+  var pizzaHeight = Math.floor(window.innerHeight /100);
+  var numOfPizzas = pizzaWidth * pizzaHeight;
+  for (var i = 0; i < numOfPizzas; i++) {
     var elem = document.createElement('img');
     elem.className = 'mover';
     elem.src = "images/pizza.png";
