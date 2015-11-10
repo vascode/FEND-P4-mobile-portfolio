@@ -1,4 +1,4 @@
-## Front End Nano Degree  
+Front End Nano Degree  
 ##Project 4 - Website Performance Optimization portfolio project
 Demo : http://vascode.github.io/FEND-P4-mobile-portfolio
 
