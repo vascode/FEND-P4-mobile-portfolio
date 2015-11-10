@@ -443,7 +443,7 @@ var resizePizzas = function(size) {
   //   }
 
     // var randomPizzaContainer = document.querySelectorAll(".randomPizzaContainer");
-    var randomPizzaContainer = document.getElementsByClassNamel("randomPizzaContainer");
+    var randomPizzaContainer = document.getElementsByClassName("randomPizzaContainer");
 
     for (var i = 0; i < randomPizzaContainer.length; i++) {
       randomPizzaContainer[i].style.width = newWidth + '%';
@@ -541,9 +541,11 @@ function requestAnimationFrameToScroll(){
   }
 }
 
+var movingPizzas1 = document.getElementById("movingPizzas1");
+var elem;
 // Generates the sliding pizzas when the page loads.
 document.addEventListener('DOMContentLoaded', function() {
-  var movingPizzas1 = document.getElementById("movingPizzas1");
+
   var cols = 8;
   var s = 256;
   // Get number of pizzas that need to be created
@@ -551,7 +553,7 @@ document.addEventListener('DOMContentLoaded', function() {
   var pizzaHeight = Math.floor(window.innerHeight /100);
   var numOfPizzas = pizzaWidth * pizzaHeight;
   for (var i = 0; i < numOfPizzas; i++) {
-    var elem = document.createElement('img');
+    elem = document.createElement('img');
     elem.className = 'mover';
     elem.src = "images/pizza.png";
     elem.style.height = "100px";
