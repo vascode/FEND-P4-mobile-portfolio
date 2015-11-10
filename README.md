@@ -18,3 +18,15 @@ Demo : http://vascode.github.io/FEND-P4-mobile-portfolio
 2. views/images/pizzeria.jpg is resized and/or compressed. 
     - index.html links to resized and compressed pic (pizzeria-min.jpg)
     - pizza.html links to compressed pic (pizzeria.jpg)
+
+#### Changes made in index.html
+1. inline style.css. 
+2. media query "print" for print.css
+3. load google font asynchronously with web font loader in footer
+
+#### Changes made in views/css/style.css
+1. add the following to .mover 
+  - backface-visibility: hidden;
+  - transform: translate3D(0 ,0 ,0);
+  - transfrom : translateZ(0);
+  - will-change: transform;
