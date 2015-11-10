@@ -490,10 +490,11 @@ function logAverageFrame(times) {   // times is the array of User Timing measure
 // The following code for sliding background pizzas was pulled from Ilya's demo found at:
 // https://www.igvita.com/slides/2012/devtools-tips-and-tricks/jank-demo.html
 
-  var animating;
+var animating;
+
 // Moves the sliding background pizzas based on scroll position
 function updatePositions() {
-
+  animating = false;
   frame++;
   window.performance.mark("mark_start_frame");
 
@@ -527,7 +528,6 @@ function updatePositions() {
     var timesToUpdatePosition = window.performance.getEntriesByName("measure_frame_duration");
     logAverageFrame(timesToUpdatePosition);
   }
-  animating = false;
 }
 
 // runs updatePositions on scroll
@@ -537,8 +537,8 @@ window.addEventListener('scroll', requestAnimationFrameToScroll);
 function requestAnimationFrameToScroll(){
   if (!animating){
     requestAnimationFrame(updatePositions);
-    animating = true;
   }
+  animating = true;
 }
 
 var movingPizzas1 = document.getElementById("movingPizzas1");
@@ -551,7 +551,8 @@ document.addEventListener('DOMContentLoaded', function() {
   // Get number of pizzas that need to be created
   var pizzaWidth = Math.floor(window.innerWidth / 73.333);
   var pizzaHeight = Math.floor(window.innerHeight /100);
-  var numOfPizzas = pizzaWidth * pizzaHeight;
+  var numOfPizzas = pizzaWidth * pizzaHeight / 4;
+
   for (var i = 0; i < numOfPizzas; i++) {
     elem = document.createElement('img');
     elem.className = 'mover';
