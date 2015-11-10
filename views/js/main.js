@@ -406,38 +406,41 @@ var resizePizzas = function(size) {
   function changeSliderLabel(size) {
     switch(size) {
       case "1":
-        document.querySelector("#pizzaSize").innerHTML = "Small";
-        return;
+        // document.querySelector("#pizzaSize").innerHTML = "Small";
+        document.getElementById('pizzaSize').innerHTML = "Small";
+        return 25;
       case "2":
-        document.querySelector("#pizzaSize").innerHTML = "Medium";
-        return;
+        // document.querySelector("#pizzaSize").innerHTML = "Medium";
+        document.getElementById('pizzaSize').innerHTML = "Medium";
+        return 33.3;
       case "3":
-        document.querySelector("#pizzaSize").innerHTML = "Large";
-        return;
+        // document.querySelector("#pizzaSize").innerHTML = "Large";
+        document.getElementById('pizzaSize').innerHTML = "Large";
+        return 50;
       default:
         console.log("bug in changeSliderLabel");
     }
   }
 
-  changeSliderLabel(size);
+  var newWidth = changeSliderLabel(size);
 
 
   // Iterates through pizza elements on the page and changes their widths
   function changePizzaSizes(size) {
-    var newWidth;
-    switch(size) {
-        case "1":
-          newWidth = 25;
-          break;
-        case "2":
-          newWidth = 33.3;
-          break;
-        case "3":
-          newWidth = 50;
-          break;
-        default:
-          console.log("bug in sizeSwitcher");
-    }
+  //   var newWidth;
+  //   switch(size) {
+  //       case "1":
+  //         newWidth = 25;
+  //         break;
+  //       case "2":
+  //         newWidth = 33.3;
+  //         break;
+  //       case "3":
+  //         newWidth = 50;
+  //         break;
+  //       default:
+  //         console.log("bug in sizeSwitcher");
+  //   }
 
     var randomPizzaContainer = document.querySelectorAll(".randomPizzaContainer");
 
